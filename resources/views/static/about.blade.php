@@ -2,7 +2,7 @@
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl leading-tight">
-            YOUR-GIVEN-NAME's {{ __('Joke DB') }}
+            Andre's {{ __('Joke DB') }}
         </h2>
     </x-slot>
 
@@ -13,7 +13,10 @@
         </header>
 
         <div class="flex flex-col flex-wrap my-4 mt-8">
-
+            <div class="flex items-center justify-between p-4 rounded-l-lg">Author: Andre Velevski <20094240@tafe.wa.edu.au></div>
+            <div class="flex items-center justify-between p-4 rounded-l-lg">this application is an application that uses laravel framework to store jokes and tell jokes. jokes can be managed by users</div>
+            <div class="flex items-center justify-between p-4 rounded-l-lg">languages used are css tailwind, html, JavaScript, and php</div>
+            <div class="flex items-center justify-between p-4 rounded-l-lg">laragon, Vite, apache, mailpit, sqlite, nodejs are used to test the mvc. mvc is coded on phpstorm</div>
         </div>
 
     </article>
