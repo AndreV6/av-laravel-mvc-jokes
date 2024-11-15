@@ -16,7 +16,7 @@ class Joke extends Model
     ];
 
     /**
-     * Get the user who authored the joke
+     * Get the users who authored the joke
      */
     public function author(): BelongsTo
     {

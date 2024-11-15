@@ -44,6 +44,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
         ];
     }
 
@@ -58,7 +60,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Set the user's nickname, use name if none provided
+     * Set the users's nickname, use name if none provided
      *
      * @param string|null $value
      * @return void
