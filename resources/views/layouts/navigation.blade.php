@@ -26,7 +26,7 @@
 
             <!-- Search Bar -->
             <div class="flex items-center space-x-10">
-                <form method="GET" action="{{ route('static.index') }}" class="hidden sm:flex">
+                <form method="GET" action="{{ route('static.home') }}" class="hidden sm:flex">
                     <input type="text" name="query" class="border border-gray-300 rounded-md px-4 py-2" placeholder="Search..." />
                     <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md">Search</button>
                 </form>
@@ -37,7 +37,7 @@
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                <div>{{ Auth::user()->name }}</div>
+                                <div>{{ Auth::user()->display_name }}</div>
 
                                 <div class="ms-1">
                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

@@ -19,6 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name',
+        'nickname',
         'email',
         'password',
     ];
@@ -44,5 +45,26 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the display name (nickname if set, otherwise name)
+     *
+     * @return string
+     */
+    public function getDisplayNameAttribute(): string
+    {
+        return $this->nickname ?? $this->name;
+    }
+
+    /**
+     * Set the user's nickname, use name if none provided
+     *
+     * @param string|null $value
+     * @return void
+     */
+    public function setNicknameAttribute(?string $value): void
+    {
+        $this->attributes['nickname'] = $value ?: $this->attributes['name'] ?? null;
     }
 }

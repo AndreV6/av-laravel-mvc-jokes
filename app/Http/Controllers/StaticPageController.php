@@ -13,6 +13,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
+use App\Models\Joke;
 
 class StaticPageController extends Controller
 {
@@ -23,7 +25,15 @@ class StaticPageController extends Controller
      */
     public function home(): view
     {
-        return view('static.home');
+        $totalMembers = DB::table('users')->count();
+        $totalJokes = DB::table('jokes')->count();
+        $randomJoke = Joke::with('author')
+            ->inRandomOrder()
+            ->first();
+        return view('static.home', [
+            'total_members' => $totalMembers,
+            'total_jokes' => $totalJokes,
+            'random_joke' => $randomJoke]);
     }
 
     /**
@@ -44,10 +54,5 @@ class StaticPageController extends Controller
     public function contact(): view
     {
         return view('static.contact');
-    }
-
-    public function index(): view
-    {
-        return view('static.index');
     }
 }

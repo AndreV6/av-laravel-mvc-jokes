@@ -14,9 +14,6 @@ Route::get('/about', [StaticPageController::class, 'about'])
 Route::get('/contact', [StaticPageController::class, 'contact'])
     ->name('static.contact');
 
-Route::get('/index', [StaticPageController::class, 'index'])
-    ->name('static.index');
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
