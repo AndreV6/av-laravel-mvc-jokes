@@ -24,13 +24,16 @@
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                         {{ __('Users') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('jokes.index')" :active="request()->routeIs('jokes.index')">
+                        {{ __('Jokes') }}
+                    </x-nav-link>
                 </div>
             </div>
 
             <!-- Search Bar -->
             <div class="flex items-center space-x-10">
-                <form method="GET" action="{{ route('static.home') }}" class="hidden sm:flex">
-                    <input type="text" name="query" class="border border-gray-300 rounded-md px-4 py-2" placeholder="Search..." />
+                <form action="{{ route('jokes.index') }}" method="GET" class="hidden sm:flex">
+                    <input type="text" name="search" value="{{ request('search') }}" class="border border-gray-300 rounded-md px-4 py-2" placeholder="Search..." />
                     <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md">Search</button>
                 </form>
 

@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jokes', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->text('joke');
-            $table->foreignId('category_id')->default(1)->constrained();
-            $table->string('tags')->nullable();
-            $table->foreignId('author_id')->default(1)->constrained('users');
+            $table->string('name', 64)->default('Unknown')->unique();
+            $table->foreignId('user_id')->default(10)->constrained();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
         });
-
     }
 
     /**
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jokes');
+        Schema::dropIfExists('categories');
     }
 };
