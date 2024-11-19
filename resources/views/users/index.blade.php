@@ -59,18 +59,20 @@
                                     </td>
                                     <td class="px-6 py-4">{{ $user->created_at->format('Y-m-d') }}</td>
                                     <td class="px-6 py-4 flex gap-2">
-                                        <a href="{{ route('users.show', $user) }}"
-                                           class="text-blue-600 hover:underline">View</a>
-                                        <a href="{{ route('users.edit', $user) }}"
-                                           class="text-yellow-600 hover:underline">Edit</a>
-                                        <form action="{{ route('users.destroy', $user) }}"
-                                              method="POST"
-                                              class="inline"
-                                              onsubmit="return confirm('Are you sure you want to delete this users?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:underline">Delete</button>
-                                        </form>
+                                        @if($user->id === auth()->id() || $user->created_by === auth()->id())
+                                            <a href="{{ route('users.show', $user) }}"
+                                               class="text-blue-600 hover:underline">View</a>
+                                            <a href="{{ route('users.edit', $user) }}"
+                                               class="text-yellow-600 hover:underline">Edit</a>
+                                            <form action="{{ route('users.destroy', $user) }}"
+                                                  method="POST"
+                                                  class="inline"
+                                                  onsubmit="return confirm('Are you sure you want to delete this users?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-600 hover:underline">Delete</button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

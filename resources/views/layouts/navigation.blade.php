@@ -21,9 +21,11 @@
                     <x-nav-link :href="route('static.contact')" :active="request()->routeIs('static.contact')">
                         {{ __('Contact Us') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
-                        {{ __('Users') }}
-                    </x-nav-link>
+                    @if(Auth::check())
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    @endif
                     <x-nav-link :href="route('jokes.index')" :active="request()->routeIs('jokes.index')">
                         {{ __('Jokes') }}
                     </x-nav-link>

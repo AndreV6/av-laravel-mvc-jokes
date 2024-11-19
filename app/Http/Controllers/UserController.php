@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class UserController extends Controller
@@ -35,6 +36,10 @@ class UserController extends Controller
      */
     public function show(User $user): View
     {
+        // Users can only view themselves or users they created
+        if ($user->id !== Auth::id() && $user->created_by !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
 
         return view('users.show', compact('user'));
     }
@@ -44,6 +49,11 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
+        // User can only edit themselves or users they created
+        if ($user->id !== auth()->id() && $user->created_by !== auth()->id()) {
+            abort(403, 'You can only edit your own account or accounts you created.');
+        }
+
         return view('users.edit', compact('user'));
     }
 
@@ -72,6 +82,7 @@ class UserController extends Controller
             'nickname' => $validated['nickname'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+            'created_by' => Auth::id()
         ]);
 
         return redirect()->route('users.show', $user)
@@ -83,6 +94,11 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user): RedirectResponse
     {
+        // User can only update themselves or users they created
+        if ($user->id !== auth()->id() && $user->created_by !== auth()->id()) {
+            abort(403, 'You can only update your own account or accounts you created.');
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'nickname' => ['nullable', 'string', 'max:255'],
@@ -100,6 +116,11 @@ class UserController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
+        // User can only delete themselves or users they created
+        if ($user->id !== auth()->id() && $user->created_by !== auth()->id()) {
+            abort(403, 'You can only delete your own account or accounts you created.');
+        }
+
         $user->delete();
 
         return redirect()->route('users.index')

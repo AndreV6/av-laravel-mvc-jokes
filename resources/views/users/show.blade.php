@@ -42,6 +42,11 @@
                         </div>
 
                         <div class="sm:col-span-1">
+                            <dt class="text-sm font-medium text-gray-500">Creator</dt>
+                            <dd class="mt-1 text-sm text-gray-900">{{ $user->creator ? $user->creator->name : 'System' }}</dd>
+                        </div>
+
+                        <div class="sm:col-span-1">
                             <dt class="text-sm font-medium text-gray-500">Registered Date</dt>
                             <dd class="mt-1 text-sm text-gray-900">{{ $user->created_at->format('Y-m-d H:i') }}</dd>
                         </div>
