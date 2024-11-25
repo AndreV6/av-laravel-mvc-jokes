@@ -12,6 +12,7 @@ class JokeSeeder extends Seeder
      */
     public function run(): void
     {
+
         $jokes = [
             [
                 'joke' => "Why don't programmers like nature? It has too many bugs.",

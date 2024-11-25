@@ -22,9 +22,11 @@
                         {{ __('Contact Us') }}
                     </x-nav-link>
                     @if(Auth::check())
-                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
-                            {{ __('Users') }}
-                        </x-nav-link>
+                        @can('user.browse')
+                            <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                                {{ __('Users') }}
+                            </x-nav-link>
+                        @endcan
                     @endif
                     <x-nav-link :href="route('jokes.index')" :active="request()->routeIs('jokes.index')">
                         {{ __('Jokes') }}
@@ -105,6 +107,7 @@
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             @if (Auth::check())
+                @can('user.logout')
                 <div class="px-4">
                     <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
@@ -126,13 +129,18 @@
                         </x-responsive-nav-link>
                     </form>
                 </div>
+                @endcan
             @else
-                <x-responsive-nav-link :href="route('login')">
-                    {{ __('Log In') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('register')">
-                    {{ __('Register') }}
-                </x-responsive-nav-link>
+                @can('user.login')
+                    <x-responsive-nav-link :href="route('login')">
+                        {{ __('Log In') }}
+                    </x-responsive-nav-link>
+                @endcan
+                @can('user.register')
+                    <x-responsive-nav-link :href="route('register')">
+                        {{ __('Register') }}
+                    </x-responsive-nav-link>
+                @endcan
             @endif
         </div>
     </div>

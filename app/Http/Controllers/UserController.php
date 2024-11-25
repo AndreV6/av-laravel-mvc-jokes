@@ -37,7 +37,7 @@ class UserController extends Controller
     public function show(User $user): View
     {
         // Users can only view themselves or users they created
-        if ($user->id !== Auth::id() && $user->created_by !== Auth::id()) {
+        if ($user->id !== Auth::id() && $user->created_by !== Auth::id() && !Auth::user()->hasRole(['superuser', 'administrator'])) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -50,7 +50,7 @@ class UserController extends Controller
     public function edit(User $user): View
     {
         // User can only edit themselves or users they created
-        if ($user->id !== auth()->id() && $user->created_by !== auth()->id()) {
+        if ($user->id !== auth()->id() && $user->created_by !== auth()->id() && !Auth::user()->hasRole(['superuser', 'administrator'])) {
             abort(403, 'You can only edit your own account or accounts you created.');
         }
 

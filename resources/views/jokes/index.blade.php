@@ -4,10 +4,12 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Jokes') }}
             </h2>
-            <a href="{{ route('jokes.create') }}"
-               class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600">
-                {{ __('Add Joke') }}
-            </a>
+            @can('joke.add')
+                <a href="{{ route('jokes.create') }}"
+                   class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600">
+                    {{ __('Add Joke') }}
+                </a>
+            @endcan
         </div>
     </x-slot>
 
@@ -62,21 +64,24 @@
                                         </div>
                                     </div>
                                     <div class="flex items-center space-x-2">
-                                        <a href="{{ route('jokes.show', $joke) }}"
-                                           class="text-blue-600 hover:underline">View</a>
+                                            <a href="{{ route('jokes.show', $joke) }}"
+                                               class="text-blue-600 hover:underline">View</a>
 
                                         @if($joke->author_id === Auth::id())
-                                            <a href="{{ route('jokes.edit', $joke) }}"
-                                               class="text-yellow-600 hover:underline">Edit</a>
-
-                                            <form action="{{ route('jokes.destroy', $joke) }}"
-                                                  method="POST"
-                                                  class="inline"
-                                                  onsubmit="return confirm('Are you sure you want to delete this joke?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="text-red-600 hover:underline">Delete</button>
-                                            </form>
+                                            @can('joke.edit')
+                                                <a href="{{ route('jokes.edit', $joke) }}"
+                                                   class="text-yellow-600 hover:underline">Edit</a>
+                                            @endcan
+                                            @can('joke.delete')
+                                                <form action="{{ route('jokes.destroy', $joke) }}"
+                                                      method="POST"
+                                                      class="inline"
+                                                      onsubmit="return confirm('Are you sure you want to delete this joke?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="text-red-600 hover:underline">Delete</button>
+                                                </form>
+                                            @endcan
                                         @endif
                                     </div>
                                 </div>

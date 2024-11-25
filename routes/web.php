@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StaticPageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\JokeController;
+use App\http\Controllers\RolesAndPermissionController;
 use Illuminate\Support\Facades\Route;
 
 //Route::get('/', function () { return view('welcome');});
@@ -32,6 +33,25 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
+Route::middleware(['auth', 'role:superuser|administrator'])->prefix('admin')->name('admin.')->group(function () {
+
+    /**
+     * User role/permission route
+     */
+    Route::get('/users/{user}/roles', [RolesAndPermissionController::class, 'assignRole'])->name('roles.assign');
+
+    /**
+     * User Roles assignment
+     */
+    Route::patch('/users/{user}/roles', [RolesAndPermissionController::class, 'updateUserRoles'])->name('roles.update-user');
+
+    /**
+     * User permission assignment
+     */
+    Route::patch('/users/{user}/permissions', [RolesAndPermissionController::class, 'updateUserPermissions'])->name('permissions.update-user');
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
