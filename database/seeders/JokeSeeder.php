@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Assessment Title: Portfolio Part 3
+ * Cluster: SaaS: Fron-End Dev - ICT50220 (Advanced Programming)
+ * Qualification: ICT50220 Diploma of Information Technology (Advanced Programming)
+ * Name: Andre Velevski
+ * Student ID: 20094240
+ * Year/Semester: 2024/S2
+ *
+ * Seeder for creating initial joke data
+ */
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -8,7 +19,15 @@ use Illuminate\Support\Facades\DB;
 class JokeSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Create sample jokes for each category
+     *
+     * Creates a set of initial jokes with:
+     * - Joke text
+     * - Category assignment
+     * - Tags
+     * - Author assignment
+     *
+     * @return void
      */
     public function run(): void
     {

@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Assessment Title: Portfolio Part 3
+ * Cluster: SaaS: Fron-End Dev - ICT50220 (Advanced Programming)
+ * Qualification: ICT50220 Diploma of Information Technology (Advanced Programming)
+ * Name: Andre Velevski
+ * Student ID: 20094240
+ * Year/Semester: 2024/S2
+ *
+ * Seeder for creating roles and permissions system
+ */
+
 namespace Database\Seeders;
 
 use App\Models\User;
@@ -10,6 +21,17 @@ use Illuminate\Support\Facades\Hash;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
+    /**
+     * Create roles, permissions, and initial users
+     *
+     * Creates:
+     * 1. Basic permissions for jokes and users
+     * 2. Roles: superuser, administrator, staff, client
+     * 3. Initial users for each role
+     * 4. Assigns appropriate permissions to each role
+     *
+     * @return void
+     */
     public function run(): void
     {
         // Reset cached roles and permissions

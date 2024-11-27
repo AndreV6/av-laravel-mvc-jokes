@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Assessment Title: Portfolio Part 3
+ * Cluster: SaaS: Fron-End Dev - ICT50220 (Advanced Programming)
+ * Qualification: ICT50220 Diploma of Information Technology (Advanced Programming)
+ * Name: Andre Velevski
+ * Student ID: 20094240
+ * Year/Semester: 2024/S1
+ *
+ * Migration to create the initial users table and related authentication tables
+ */
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -7,7 +18,14 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Create users table and related authentication tables
+     *
+     * Creates:
+     * - users table for storing user accounts
+     * - password_reset_tokens table for password resets
+     * - sessions table for user sessions
+     *
+     * @return void
      */
     public function up(): void
     {
@@ -40,7 +58,9 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Remove the users and related authentication tables
+     *
+     * @return void
      */
     public function down(): void
     {

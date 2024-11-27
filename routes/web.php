@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Assessment Title: Portfolio Part 3
+ * Cluster: SaaS: Fron-End Dev - ICT50220 (Advanced Programming)
+ * Qualification: ICT50220 Diploma of Information Technology (Advanced Programming)
+ * Name: Andre Velevski
+ * Student ID: 20094240
+ * Year/Semester: 2024/S2
+ *
+ * Controller for managing jokes in the system
+ */
+
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StaticPageController;
 use App\Http\Controllers\UserController;
@@ -10,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/', function () { return view('welcome');});
 
 /**
- * static pages routes
+ * Static page routes accessible to all visitors
  */
 Route::get('/', [StaticPageController::class, 'home'])
     ->name('static.home');
@@ -29,31 +40,47 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+/**
+ * profile auth endpoints
+ */
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
 });
 
-
+/**
+ * Admin routes for role and permission management
+ * Accessible only to superusers and administrators
+ */
 Route::middleware(['auth', 'role:superuser|administrator'])->prefix('admin')->name('admin.')->group(function () {
 
     /**
      * User role/permission route
      */
-    Route::get('/users/{user}/roles', [RolesAndPermissionController::class, 'assignRole'])->name('roles.assign');
+    Route::get('/users/{user}/roles', [RolesAndPermissionController::class, 'assignRole'])
+        ->name('roles.assign');
 
     /**
      * User Roles assignment
      */
-    Route::patch('/users/{user}/roles', [RolesAndPermissionController::class, 'updateUserRoles'])->name('roles.update-user');
+    Route::patch('/users/{user}/roles', [RolesAndPermissionController::class, 'updateUserRoles'])
+        ->name('roles.update-user');
 
     /**
      * User permission assignment
      */
-    Route::patch('/users/{user}/permissions', [RolesAndPermissionController::class, 'updateUserPermissions'])->name('permissions.update-user');
+    Route::patch('/users/{user}/permissions', [RolesAndPermissionController::class, 'updateUserPermissions'])
+        ->name('permissions.update-user');
 });
 
+/**
+ * Authenticated user routes protected by Sanctum
+ * Includes joke and user management features
+ */
 Route::middleware(['auth:sanctum'])->group(function () {
     // Joke trash routes
     Route::get('/jokes/trashed', [JokeController::class, 'trashed'])
@@ -99,7 +126,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 /**
- * jokes routes
+ * public jokes routes
  */
 Route::get('/jokes', [JokeController::class, 'index'])->name('jokes.index');
 Route::get('/jokes/{joke}', [JokeController::class, 'show'])->name('jokes.show');

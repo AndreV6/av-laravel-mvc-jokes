@@ -4,7 +4,7 @@
  * Cluster: SaaS: Part 1 -- Front End Development
  * Qualification: ICT50220 Diploma of Information Technology (Advanced Programming)
  * Name: Andre Velevski
- * Student ID: 2004240
+ * Student ID: 20094240
  * Year/Semester: 2024/S2
  *
  * Static page controller for handling basic site pages
@@ -20,6 +20,8 @@ class StaticPageController extends Controller
 {
     /**
      * Display the home page
+     *
+     * Shows total members, total jokes, and a random joke
      *
      * @return View
      */

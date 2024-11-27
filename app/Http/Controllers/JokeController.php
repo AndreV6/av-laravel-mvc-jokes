@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Assessment Title: Portfolio Part 3
+ * Cluster: SaaS: Fron-End Dev - ICT50220 (Advanced Programming)
+ * Qualification: ICT50220 Diploma of Information Technology (Advanced Programming)
+ * Name: Andre Velevski
+ * Student ID: 20094240
+ * Year/Semester: 2024/S2
+ *
+ * Controller for managing jokes in the system
+ */
+
 namespace App\Http\Controllers;
 
 use App\Models\Joke;
@@ -12,7 +23,10 @@ use Illuminate\View\View;
 class JokeController extends Controller
 {
     /**
-     * Display a list of jokes with search, filter functionality
+     * Display a list of jokes with search and filter functionality
+     *
+     * @param Request $request
+     * @return View
      */
     public function index(Request $request): View
     {
@@ -44,6 +58,8 @@ class JokeController extends Controller
 
     /**
      * Show form to create a new joke
+     *
+     * @return View
      */
     public function create(): View
     {
@@ -52,7 +68,10 @@ class JokeController extends Controller
     }
 
     /**
-     * Store a new joke
+     * Store a newly created joke
+     *
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
@@ -71,7 +90,10 @@ class JokeController extends Controller
     }
 
     /**
-     * Display specific joke
+     * Display a specific joke
+     *
+     * @param Joke $joke
+     * @return View
      */
     public function show(Joke $joke): View
     {
@@ -80,7 +102,10 @@ class JokeController extends Controller
     }
 
     /**
-     * Show form to edit joke
+     * Show form to edit a joke
+     *
+     * @param Joke $joke
+     * @return View
      */
     public function edit(Joke $joke): View
     {
@@ -94,7 +119,11 @@ class JokeController extends Controller
     }
 
     /**
-     * Update joke
+     * Update a joke
+     *
+     * @param Request $request
+     * @param Joke $joke
+     * @return RedirectResponse
      */
     public function update(Request $request, Joke $joke): RedirectResponse
     {
@@ -116,7 +145,10 @@ class JokeController extends Controller
     }
 
     /**
-     * Delete joke
+     * Delete a joke
+     *
+     * @param Joke $joke
+     * @return RedirectResponse
      */
     public function destroy(Joke $joke): RedirectResponse
     {
@@ -131,12 +163,23 @@ class JokeController extends Controller
             ->with('status', 'Joke deleted successfully.');
     }
 
+    /**
+     * Display trashed jokes
+     *
+     * @return View
+     */
     public function trashed(): View
     {
         $jokes = Joke::onlyTrashed()->with(['author', 'category'])->paginate(10);
         return view('jokes.trashed', compact('jokes'));
     }
 
+    /**
+     * Restore a trashed joke
+     *
+     * @param int $id
+     * @return RedirectResponse
+     */
     public function restore($id): RedirectResponse
     {
         $joke = Joke::withTrashed()->findOrFail($id);
@@ -162,6 +205,12 @@ class JokeController extends Controller
             ->with('status', 'Joke restored successfully.');
     }
 
+    /**
+     * Permanently delete a joke
+     *
+     * @param int $id
+     * @return RedirectResponse
+     */
     public function forceDelete($id): RedirectResponse
     {
         $joke = Joke::withTrashed()->findOrFail($id);

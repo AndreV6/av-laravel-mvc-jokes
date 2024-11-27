@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * Assessment Title: Portfolio Part 3
+ * Cluster: SaaS: Fron-End Dev - ICT50220 (Advanced Programming)
+ * Qualification: ICT50220 Diploma of Information Technology (Advanced Programming)
+ * Name: Andre Velevski
+ * Student ID: 20094240
+ * Year/Semester: 2024/S2
+ *
+ * Controller handling all user management functionality including BREAD operations
+ * (Browse, Read, Edit, Add, Delete) and user search capabilities
+ */
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -12,8 +24,12 @@ use Illuminate\View\View;
 class UserController extends Controller
 {
     /**
-     * Display a list of users
-     * Includes search and filter functionality
+     * Display a paginated list of users with search functionality
+     *
+     * Searches across name, email, and nickname fields
+     *
+     * @param Request $request
+     * @return View
      */
     public function index(Request $request): View
     {
@@ -32,7 +48,13 @@ class UserController extends Controller
     }
 
     /**
-     * Show detailed information of a specific users
+     * Display detailed information for a specific user
+     *
+     * Users can only view themselves or users they created unless they are
+     * a superuser or administrator
+     *
+     * @param User $user
+     * @return View
      */
     public function show(User $user): View
     {
@@ -45,7 +67,13 @@ class UserController extends Controller
     }
 
     /**
-     * Show form to edit users details
+     * Show form to edit a user's details
+     *
+     * Users can only edit themselves or users they created unless they are
+     * a superuser or administrator
+     *
+     * @param User $user
+     * @return View
      */
     public function edit(User $user): View
     {
@@ -58,7 +86,9 @@ class UserController extends Controller
     }
 
     /**
-     * Show form to create a new users
+     * Show form to create a new user
+     *
+     * @return View
      */
     public function create(): View
     {
@@ -66,7 +96,13 @@ class UserController extends Controller
     }
 
     /**
-     * Store a new users
+     * Store a newly created user
+     *
+     * Creates a new user with the provided information and assigns the
+     * authenticated user as their creator
+     *
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
@@ -90,7 +126,13 @@ class UserController extends Controller
     }
 
     /**
-     * Update users details
+     * Update user details
+     *
+     * Users can only update themselves or users they created
+     *
+     * @param Request $request
+     * @param User $user
+     * @return RedirectResponse
      */
     public function update(Request $request, User $user): RedirectResponse
     {
@@ -112,7 +154,13 @@ class UserController extends Controller
     }
 
     /**
-     * Delete a users
+     * Soft delete a user
+     *
+     * Prevents deletion of the last superuser. Users can be restored later
+     * by authorized users.
+     *
+     * @param User $user
+     * @return RedirectResponse
      */
     public function destroy(User $user): RedirectResponse
     {
@@ -138,12 +186,26 @@ class UserController extends Controller
         abort(403, 'Unauthorized action.');
     }
 
+    /**
+     * Display list of soft-deleted users
+     *
+     * @return View
+     */
     public function trashed(): View
     {
         $users = User::onlyTrashed()->paginate(10);
         return view('users.trashed', compact('users'));
     }
 
+    /**
+     * Restore a soft-deleted user
+     *
+     * Permissions are checked based on user roles to determine if restoration
+     * is allowed
+     *
+     * @param int $id
+     * @return RedirectResponse
+     */
     public function restore($id): RedirectResponse
     {
         $user = User::withTrashed()->findOrFail($id);
@@ -179,6 +241,14 @@ class UserController extends Controller
             }
         }
 
+        /**
+         * Permanently delete a user
+         *
+         * Checks role permissions and prevents deletion of the last superuser
+         *
+         * @param int $id
+         * @return RedirectResponse
+         */
         // Check permissions based on user role
         if (auth()->user()->hasRole('superuser')) {
             if ($user->id !== auth()->id()) {

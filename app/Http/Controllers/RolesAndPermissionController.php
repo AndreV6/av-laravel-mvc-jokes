@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Assessment Title: Portfolio Part 3
+ * Cluster: SaaS: Fron-End Dev - ICT50220 (Advanced Programming)
+ * Qualification: ICT50220 Diploma of Information Technology (Advanced Programming)
+ * Name: Andre Velevski
+ * Student ID: 20094240
+ * Year/Semester: 2024/S2
+ *
+ * Controller for managing user roles and permissions
+ */
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -14,6 +25,9 @@ class RolesAndPermissionController extends Controller
 
     /**
      * Show form to assign roles and permissions to a user
+     *
+     * @param User $user
+     * @return View
      */
     public function assignRole(User $user): View
     {
@@ -32,6 +46,10 @@ class RolesAndPermissionController extends Controller
 
     /**
      * Update user's roles
+     *
+     * @param Request $request
+     * @param User $user
+     * @return RedirectResponse
      */
     public function updateUserRoles(Request $request, User $user): RedirectResponse
     {
@@ -62,6 +80,10 @@ class RolesAndPermissionController extends Controller
 
     /**
      * Update user's direct permissions
+     *
+     * @param Request $request
+     * @param User $user
+     * @return RedirectResponse
      */
     public function updateUserPermissions(Request $request, User $user): RedirectResponse
     {
