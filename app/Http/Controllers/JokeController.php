@@ -121,7 +121,7 @@ class JokeController extends Controller
     public function destroy(Joke $joke): RedirectResponse
     {
         // Check if user owns this joke
-        if ($joke->author_id !== Auth::id()) {
+        if ($joke->author_id !== Auth::id() && !auth()->user()->hasRole(['superuser', 'administrator', 'staff'])) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -129,5 +129,61 @@ class JokeController extends Controller
 
         return redirect()->route('jokes.index')
             ->with('status', 'Joke deleted successfully.');
+    }
+
+    public function trashed(): View
+    {
+        $jokes = Joke::onlyTrashed()->with(['author', 'category'])->paginate(10);
+        return view('jokes.trashed', compact('jokes'));
+    }
+
+    public function restore($id): RedirectResponse
+    {
+        $joke = Joke::withTrashed()->findOrFail($id);
+
+        // Check permissions based on user role
+        if (auth()->user()->hasRole('superuser')) {
+            $joke->restore();
+        } elseif (auth()->user()->hasRole('administrator')) {
+            if (!$joke->author->hasRole('superuser')) {
+                $joke->restore();
+            }
+        } elseif (auth()->user()->hasRole('staff')) {
+            if (!$joke->author->hasAnyRole(['superuser', 'administrator', 'staff'])) {
+                $joke->restore();
+            }
+        } elseif ($joke->author_id === auth()->id()) {
+            $joke->restore();
+        } else {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return redirect()->route('jokes.trashed')
+            ->with('status', 'Joke restored successfully.');
+    }
+
+    public function forceDelete($id): RedirectResponse
+    {
+        $joke = Joke::withTrashed()->findOrFail($id);
+
+        // Check permissions based on user role
+        if (auth()->user()->hasRole('superuser')) {
+            $joke->forceDelete();
+        } elseif (auth()->user()->hasRole('administrator')) {
+            if (!$joke->author->hasRole('superuser')) {
+                $joke->forceDelete();
+            }
+        } elseif (auth()->user()->hasRole('staff')) {
+            if (!$joke->author->hasAnyRole(['superuser', 'administrator', 'staff'])) {
+                $joke->forceDelete();
+            }
+        } elseif ($joke->author_id === auth()->id()) {
+            $joke->forceDelete();
+        } else {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return redirect()->route('jokes.trashed')
+            ->with('status', 'Joke permanently deleted.');
     }
 }

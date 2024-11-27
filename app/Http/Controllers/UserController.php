@@ -116,14 +116,87 @@ class UserController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
-        // User can only delete themselves or users they created
-        if ($user->id !== auth()->id() && $user->created_by !== auth()->id()) {
-            abort(403, 'You can only delete your own account or accounts you created.');
+
+        // Prevent deletion of last superuser
+        if ($user->hasRole('superuser')) {
+            $superuserCount = User::role('superuser')->count();
+            if ($superuserCount <= 1) {
+                return redirect()->back()->withErrors(['user' => 'Cannot delete the last superuser.']);
+            }
         }
 
         $user->delete();
 
-        return redirect()->route('users.index')
-            ->with('status', 'User deleted successfully.');
+        if ($user->id === auth()->id() ||
+            (auth()->user()->hasRole('administrator') && !$user->hasRole('superuser')) ||
+            (auth()->user()->hasRole('staff') && !$user->hasAnyRole(['superuser', 'administrator', 'staff']))) {
+            $user->delete();
+            return redirect()->route('users.index')
+                ->with('status', 'User moved to trash.');
+        }
+
+        abort(403, 'Unauthorized action.');
+    }
+
+    public function trashed(): View
+    {
+        $users = User::onlyTrashed()->paginate(10);
+        return view('users.trashed', compact('users'));
+    }
+
+    public function restore($id): RedirectResponse
+    {
+        $user = User::withTrashed()->findOrFail($id);
+
+        // Check permissions based on user role
+        if (auth()->user()->hasRole('superuser')) {
+            $user->restore();
+        } elseif (auth()->user()->hasRole('administrator')) {
+            if (!$user->hasRole('superuser')) {
+                $user->restore();
+            }
+        } elseif (auth()->user()->hasRole('staff')) {
+            if (!$user->hasAnyRole(['superuser', 'administrator', 'staff'])) {
+                $user->restore();
+            }
+        } else {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return redirect()->route('users.trashed')
+            ->with('status', 'User restored successfully.');
+    }
+
+    public function forceDelete($id): RedirectResponse
+    {
+        $user = User::withTrashed()->findOrFail($id);
+
+        // Prevent deletion of last superuser
+        if ($user->hasRole('superuser')) {
+            $superuserCount = User::role('superuser')->count();
+            if ($superuserCount <= 1) {
+                return redirect()->back()->withErrors(['user' => 'Cannot delete the last superuser.']);
+            }
+        }
+
+        // Check permissions based on user role
+        if (auth()->user()->hasRole('superuser')) {
+            if ($user->id !== auth()->id()) {
+                $user->forceDelete();
+            }
+        } elseif (auth()->user()->hasRole('administrator')) {
+            if (!$user->hasRole('superuser')) {
+                $user->forceDelete();
+            }
+        } elseif (auth()->user()->hasRole('staff')) {
+            if (!$user->hasAnyRole(['superuser', 'administrator', 'staff'])) {
+                $user->forceDelete();
+            }
+        } else {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return redirect()->route('users.trashed')
+            ->with('status', 'User permanently deleted.');
     }
 }

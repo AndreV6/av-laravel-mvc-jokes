@@ -4,12 +4,20 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Jokes') }}
             </h2>
-            @can('joke.add')
-                <a href="{{ route('jokes.create') }}"
-                   class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600">
-                    {{ __('Add Joke') }}
-                </a>
-            @endcan
+            <div class="flex space-x-4">
+                @can(['joke.restore', 'joke.force-delete', 'joke.delete'])
+                    <a href="{{ route('jokes.trashed') }}"
+                       class="inline-flex items-center px-4 py-2 bg-gray-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-600">
+                        {{ __('View Trash') }}
+                    </a>
+                @endcan
+                @can('joke.add')
+                    <a href="{{ route('jokes.create') }}"
+                       class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600">
+                        {{ __('Add Joke') }}
+                    </a>
+                @endcan
+            </div>
         </div>
     </x-slot>
 

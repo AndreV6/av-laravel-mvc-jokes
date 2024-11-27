@@ -4,12 +4,20 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Users') }}
             </h2>
-            @can('user.add')
-                <a href="{{ route('users.create') }}"
-                   class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600">
-                    {{ __('Add User') }}
-                </a>
-            @endcan
+            <div class="flex space-x-4">
+                @can(['user.delete', 'user.restore', 'user.force-delete'])
+                    <a href="{{ route('users.trashed') }}"
+                       class="inline-flex items-center px-4 py-2 bg-gray-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-600">
+                        {{ __('View Trash') }}
+                    </a>
+                @endcan
+                @can('user.add')
+                    <a href="{{ route('users.create') }}"
+                       class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600">
+                        {{ __('Add User') }}
+                    </a>
+                @endcan
+            </div>
         </div>
     </x-slot>
 
@@ -53,8 +61,9 @@
                                     <td class="px-6 py-4">{{ $user->name }}</td>
                                     <td class="px-6 py-4">{{ $user->nickname ?? '-' }}</td>
                                     <td class="px-6 py-4">{{ $user->email }}</td>
+                                    <td class="px-6 py-4">
                                         @if($user->email_verified_at)
-                                            <td class="px-6 py-4">{{ $user->email_verified_at->format('Y-m-d') }}</td>
+                                            {{ $user->email_verified_at->format('Y-m-d') }}
                                         @else
                                             <span class="text-red-600">Not Verified</span>
                                         @endif

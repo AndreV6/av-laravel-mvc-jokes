@@ -55,6 +55,27 @@ Route::middleware(['auth', 'role:superuser|administrator'])->prefix('admin')->na
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    // Joke trash routes
+    Route::get('/jokes/trashed', [JokeController::class, 'trashed'])
+        ->name('jokes.trashed')
+        ->middleware('permission:joke.delete|joke.restore|joke.force-delete');
+    Route::patch('/jokes/{id}/restore', [JokeController::class, 'restore'])
+        ->name('jokes.restore')
+        ->middleware('permission:joke.restore');
+    Route::delete('/jokes/{id}/force-delete', [JokeController::class, 'forceDelete'])
+        ->name('jokes.force-delete')
+        ->middleware('permission:joke.force-delete');
+
+    // User trash routes
+    Route::get('/users/trashed', [UserController::class, 'trashed'])
+        ->name('users.trashed')
+        ->middleware('permission:user.delete|user.restore|user.force-delete');
+    Route::patch('/users/{id}/restore', [UserController::class, 'restore'])
+        ->name('users.restore')
+        ->middleware('permission:user.restore');
+    Route::delete('/users/{id}/force-delete', [UserController::class, 'forceDelete'])
+        ->name('users.force-delete')
+        ->middleware('permission:user.force-delete');
     /**
      * auth users routes
      */

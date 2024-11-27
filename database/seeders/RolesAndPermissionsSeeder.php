@@ -21,6 +21,8 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'joke.add']);
         Permission::create(['name' => 'joke.edit']);
         Permission::create(['name' => 'joke.delete']);
+        Permission::create(['name' => 'joke.restore']);
+        Permission::create(['name' => 'joke.force-delete']);
 
         Permission::create(['name' => 'user.browse']);
         Permission::create(['name' => 'user.read']);
@@ -30,6 +32,8 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'user.register']);
         Permission::create(['name' => 'user.login']);
         Permission::create(['name' => 'user.logout']);
+        Permission::create(['name' => 'user.restore']);
+        Permission::create(['name' => 'user.force-delete']);
 
         // Create roles and assign permissions
         $superuser = Role::create(['name' => 'superuser']);
@@ -37,19 +41,19 @@ class RolesAndPermissionsSeeder extends Seeder
 
         $admin = Role::create(['name' => 'administrator']);
         $admin->givePermissionTo([
-            'joke.browse', 'joke.read', 'joke.add', 'joke.edit', 'joke.delete',
-            'user.browse', 'user.read', 'user.add', 'user.edit', 'user.delete', 'user.logout'
+            'joke.browse', 'joke.read', 'joke.add', 'joke.edit', 'joke.delete', 'joke.force-delete', 'joke.restore',
+            'user.browse', 'user.read', 'user.add', 'user.edit', 'user.delete', 'user.logout', 'user.force-delete', 'user.restore'
         ]);
 
         $staff = Role::create(['name' => 'staff']);
         $staff->givePermissionTo([
-            'joke.browse', 'joke.read', 'joke.add', 'joke.edit', 'joke.delete',
-            'user.browse', 'user.read', 'user.logout'
+            'joke.browse', 'joke.read', 'joke.add', 'joke.edit', 'joke.delete', 'joke.force-delete', 'joke.restore',
+            'user.browse', 'user.read', 'user.logout', 'user.force-delete', 'user.restore'
         ]);
 
         $client = Role::create(['name' => 'client']);
         $client->givePermissionTo([
-            'joke.browse', 'joke.read', 'joke.add',
+            'joke.browse', 'joke.read', 'joke.add', 'joke.delete', 'joke.force-delete', 'joke.restore',
             'user.browse', 'user.read', 'user.logout'
         ]);
 
