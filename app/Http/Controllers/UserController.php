@@ -37,7 +37,8 @@ class UserController extends Controller
 
         $users = User::query()
             ->when($search, function($query, $search) {
-                $query->where('name', 'like', "%{$search}%")
+                $query->where('given_name', 'like', "%{$search}%")
+                    ->orWhere('family_name', 'like', "%{$search}%")
                     ->orWhere('email', 'like', "%{$search}%")
                     ->orWhere('nickname', 'like', "%{$search}%");
             })
@@ -107,14 +108,16 @@ class UserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'given_name' => ['required', 'string', 'max:255'],
+            'family_name' => ['required', 'string', 'max:255'],
             'nickname' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
         $user = User::create([
-            'name' => $validated['name'],
+            'given_name' => $validated['given_name'],
+            'family_name' => $validated['family_name'],
             'nickname' => $validated['nickname'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
@@ -142,7 +145,8 @@ class UserController extends Controller
         }
 
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'given_name' => ['required', 'string', 'max:255'],
+            'family_name' => ['required', 'string', 'max:255'],
             'nickname' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
         ]);

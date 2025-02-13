@@ -79,40 +79,6 @@ class RolesAndPermissionsSeeder extends Seeder
             'user.browse', 'user.read', 'user.logout'
         ]);
 
-        // Create superuser
-        $superuserAccount = User::create([
-            'name' => 'Super Admin',
-            'email' => 'super@admin.com',
-            'password' => Hash::make('Password1'),
-            'email_verified_at' => now(),
-        ]);
-        $superuserAccount->assignRole('superuser');
 
-        // Create admin user
-        $adminAccount = User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('Password1'),
-            'email_verified_at' => now(),
-        ]);
-        $adminAccount->assignRole('administrator');
-
-        // Create staff user
-        $staffAccount = User::create([
-            'name' => 'Staff User',
-            'email' => 'staff@example.com',
-            'password' => Hash::make('Password1'),
-            'email_verified_at' => now(),
-        ]);
-        $staffAccount->assignRole('staff');
-
-        // Create client user
-        $clientAccount = User::create([
-            'name' => 'Client User',
-            'email' => 'client@example.com',
-            'password' => Hash::make('Password1'),
-            'email_verified_at' => now(),
-        ]);
-        $clientAccount->assignRole('client');
     }
 }

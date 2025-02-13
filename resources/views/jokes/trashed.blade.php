@@ -17,7 +17,7 @@
                     @forelse($jokes as $joke)
                         <div class="mb-4 p-4 border rounded">
                             <p class="text-lg">{{ $joke->joke }}</p>
-                            <p class="text-sm text-gray-600">By: {{ $joke->author->name }}</p>
+                            <p class="text-sm text-gray-600">By: {{ $joke->author->given_name . " " . $joke->author->family_name }}</p>
                             <p class="text-sm text-gray-600">Deleted: {{ $joke->deleted_at->format('Y-m-d H:i') }}</p>
                             <div class="mt-2 space-x-2">
                                 <form action="{{ route('jokes.restore', $joke->id) }}" method="POST" class="inline">

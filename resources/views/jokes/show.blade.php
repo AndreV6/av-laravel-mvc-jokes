@@ -43,7 +43,7 @@
 
                         <!-- Meta Information -->
                         <div class="mt-6 text-sm text-gray-500 space-y-1">
-                            <p>Posted by: {{ $joke->author->name }}</p>
+                            <p>Posted by: {{ $joke->author->nickname ?? $joke->author->given_name . " " . $joke->author->family_name}}</p>
                             <p>Category: {{ $joke->category->name }}</p>
                             <p>Created: {{ $joke->created_at->format('F j, Y g:i A') }}</p>
                             @if($joke->updated_at && $joke->updated_at->ne($joke->created_at))

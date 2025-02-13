@@ -16,8 +16,13 @@
 
                     <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500">Name</dt>
-                            <dd class="mt-1 text-sm text-gray-900">{{ $user->name }}</dd>
+                            <dt class="text-sm font-medium text-gray-500">Given Name</dt>
+                            <dd class="mt-1 text-sm text-gray-900">{{ $user->given_name }}</dd>
+                        </div>
+
+                        <div class="sm:col-span-1">
+                            <dt class="text-sm font-medium text-gray-500">Family Name</dt>
+                            <dd class="mt-1 text-sm text-gray-900">{{ $user->family_name }}</dd>
                         </div>
 
                         <div class="sm:col-span-1">

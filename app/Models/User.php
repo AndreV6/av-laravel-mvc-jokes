@@ -33,7 +33,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'given_name',
+        'family_name',
         'nickname',
         'email',
         'password',
@@ -72,7 +73,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function getDisplayNameAttribute(): string
     {
-        return $this->nickname ?? $this->name;
+        return $this->nickname ?? $this->given_name;
     }
 
     /**
@@ -83,7 +84,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function setNicknameAttribute(?string $value): void
     {
-        $this->attributes['nickname'] = $value ?: $this->attributes['name'] ?? null;
+        $this->attributes['nickname'] = $value ?: $this->attributes['given_name'] ?? null;
     }
 
     /**

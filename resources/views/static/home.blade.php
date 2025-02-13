@@ -54,7 +54,7 @@
                     <footer class="-mx-2 bg-zinc-100 text-zinc-600 text-sm mt-4 -mb-2 rounded-b flex-0">
                         <p class="w-full text-right rounded-b hover:text-black px-4 py-2">
                             @if (!empty($random_joke->joke))
-                                Posted by: {{ $random_joke->author->name }}
+                                Posted by: {{ $random_joke->author->nickname ?? $random_joke->author->given_name . " " . $random_joke->author->family_name }}
                             @endif
                         </p>
                     </footer>

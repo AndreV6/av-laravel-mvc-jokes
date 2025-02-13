@@ -17,7 +17,8 @@
                     <table class="min-w-full">
                         <thead>
                         <tr>
-                            <th class="px-6 py-3 text-left">Name</th>
+                            <th class="px-6 py-3 text-left">Given Name</th>
+                            <th class="px-6 py-3 text-left">Family Name</th>
                             <th class="px-6 py-3 text-left">Email</th>
                             <th class="px-6 py-3 text-left">Deleted At</th>
                             <th class="px-6 py-3 text-left">Actions</th>
@@ -26,7 +27,8 @@
                         <tbody>
                         @forelse($users as $user)
                             <tr>
-                                <td class="px-6 py-4">{{ $user->name }}</td>
+                                <td class="px-6 py-4">{{ $user->given_name }}</td>
+                                <td class="px-6 py-4">{{ $user->family_name }}</td>
                                 <td class="px-6 py-4">{{ $user->email }}</td>
                                 <td class="px-6 py-4">{{ $user->deleted_at->format('Y-m-d H:i') }}</td>
                                 <td class="px-6 py-4 space-x-2">

@@ -47,7 +47,8 @@
                         <table class="w-full text-sm text-left text-gray-500">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-6 py-3">Name</th>
+                                <th scope="col" class="px-6 py-3">Given Name</th>
+                                <th scope="col" class="px-6 py-3">Family Name</th>
                                 <th scope="col" class="px-6 py-3">Nickname</th>
                                 <th scope="col" class="px-6 py-3">Email</th>
                                 <th scope="col" class="px-6 py-3">Verified</th>
@@ -58,7 +59,8 @@
                             <tbody>
                             @foreach($users as $user)
                                 <tr class="bg-white border-b hover:bg-gray-50">
-                                    <td class="px-6 py-4">{{ $user->name }}</td>
+                                    <td class="px-6 py-4">{{ $user->given_name }}</td>
+                                    <td class="px-6 py-4">{{ $user->family_name }}</td>
                                     <td class="px-6 py-4">{{ $user->nickname ?? '-' }}</td>
                                     <td class="px-6 py-4">{{ $user->email }}</td>
                                     <td class="px-6 py-4">

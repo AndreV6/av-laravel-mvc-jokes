@@ -18,23 +18,29 @@
         @method('patch')
 
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+            <x-input-label for="given_name" :value="__('Given Name')" />
+            <x-text-input id="given_name" name="given_name" type="text" class="mt-1 block w-full" :value="old('given_name', Auth::user()->given_name)" required autofocus autocomplete="given_name" />
+            <x-input-error class="mt-2" :messages="$errors->get('given_name')" />
+        </div>
+
+        <div>
+            <x-input-label for="family_name" :value="__('Family Name')" />
+            <x-text-input id="family_name" name="family_name" type="text" class="mt-1 block w-full" :value="old('family_name', Auth::user()->family_name)" required autocomplete="family_name" />
+            <x-input-error class="mt-2" :messages="$errors->get('family_name')" />
         </div>
 
         <div>
             <x-input-label for="nickname" :value="__('Nickname')" />
-            <x-text-input id="nickname" name="nickname" type="text" class="mt-1 block w-full" :value="old('nickname', $user->nickname)" required autofocus autocomplete="nickname" />
+            <x-text-input id="nickname" name="nickname" type="text" class="mt-1 block w-full" :value="old('nickname', Auth::user()->nickname)" required autocomplete="nickname" />
             <x-input-error class="mt-2" :messages="$errors->get('nickname')" />
         </div>
 
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', Auth::user()->email)" required autocomplete="email" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+            @if (Auth::user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! Auth::user()->hasVerifiedEmail())
                 <div>
                     <p class="text-sm mt-2 text-gray-800">
                         {{ __('Your email address is unverified.') }}
