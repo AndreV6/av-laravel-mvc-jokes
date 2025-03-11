@@ -110,7 +110,7 @@ class JokeController extends Controller
     public function edit(Joke $joke): View
     {
         // Check if user owns this joke
-        if ($joke->author_id !== Auth::id()) {
+        if ($joke->author_id !== Auth::id() && $joke->created_by !== Auth::id() && !Auth::user()->hasRole(['superuser', 'administrator', 'staff'])) {
             abort(403, 'Unauthorized action.');
         }
 

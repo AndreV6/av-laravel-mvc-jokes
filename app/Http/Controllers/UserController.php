@@ -140,7 +140,7 @@ class UserController extends Controller
     public function update(Request $request, User $user): RedirectResponse
     {
         // User can only update themselves or users they created
-        if ($user->id !== auth()->id() && $user->created_by !== auth()->id()) {
+        if ($user->id !== auth()->id() && $user->created_by !== auth()->id() && !Auth::user()->hasRole(['superuser', 'administrator', 'staff'])) {
             abort(403, 'You can only update your own account or accounts you created.');
         }
 
