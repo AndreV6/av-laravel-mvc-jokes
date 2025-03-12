@@ -75,7 +75,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         $client = Role::create(['name' => 'client']);
         $client->givePermissionTo([
-            'joke.browse', 'joke.read', 'joke.add', 'joke.delete', 'joke.force-delete', 'joke.restore',
+            'joke.browse', 'joke.read', 'joke.add', 'joke.edit', 'joke.delete', 'joke.force-delete', 'joke.restore',
             'user.browse', 'user.read', 'user.logout'
         ]);
 

@@ -75,7 +75,7 @@
                                             <a href="{{ route('jokes.show', $joke) }}"
                                                class="text-blue-600 hover:underline">View</a>
 
-                                        @if($joke->author_id === Auth::id() || auth()->user()->hasRole(['superuser', 'administrator', 'staff']))
+                                        @if(auth()->check() && (auth()->user()->hasRole(['superuser', 'administrator', 'staff']) || $joke->author_id === Auth::id()))
                                             @can('joke.edit')
                                                 <a href="{{ route('jokes.edit', $joke) }}"
                                                    class="text-yellow-600 hover:underline">Edit</a>
